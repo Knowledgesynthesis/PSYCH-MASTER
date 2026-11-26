@@ -1,0 +1,406 @@
+import type { Module } from '../types'
+
+export const psychosis: Module = {
+  id: 'psychosis',
+  title: 'Psychosis & Schizophrenia',
+  short: 'Psychosis',
+  path: '/learn/psychosis',
+  icon: 'Orbit',
+  color: 'from-indigo-500 to-purple-600',
+  summary: 'Symptom dimensions, diagnosis by duration and mood timing, first-episode workup, choosing and monitoring antipsychotics (including clozapine and the newest agents), and managing agitation.',
+  minutes: 50,
+  objectives: [
+    'Classify symptoms as positive, negative, disorganized, or cognitive, and separate primary from secondary negative symptoms.',
+    'Use duration and mood timing to distinguish brief psychotic, schizophreniform, schizophrenia, schizoaffective, and mood disorder with psychotic features.',
+    'Run a focused first-episode workup and recognize red flags for medical causes.',
+    'Choose antipsychotics by side-effect profile, use LAIs early, and offer clozapine on time.',
+    'Recognize and manage EPS, TD, metabolic and cardiac adverse effects, and agitation.',
+  ],
+  sections: [
+    {
+      id: 'dimensions',
+      title: 'Symptom dimensions',
+      lead: 'Positive symptoms bring people to care; negative and cognitive symptoms determine how they live.',
+      blocks: [
+        {
+          type: 'table',
+          head: ['Dimension', 'Examples', 'Treatment response'],
+          rows: [
+            ['Positive', 'Hallucinations (auditory most common), delusions (persecutory, referential, grandiose, somatic, thought insertion/withdrawal/broadcasting)', 'Best response to antipsychotics'],
+            ['Disorganized', 'Derailment/loose associations, tangentiality, word salad, neologisms; disorganized or bizarre behavior', 'Moderate response'],
+            ['Negative: diminished expression', 'Blunted affect, alogia (poverty of speech)', 'Poor response; rule out secondary causes'],
+            ['Negative: amotivation', 'Avolition, anhedonia, asociality', 'Poor response; psychosocial rehabilitation'],
+            ['Cognitive', 'Attention, working memory, processing speed, executive function', 'Core feature, strongest predictor of function; cognitive remediation, exercise'],
+          ],
+        },
+        {
+          type: 'callout',
+          tone: 'pearl',
+          title: 'Primary vs secondary negative symptoms',
+          text: 'Before calling negative symptoms "primary", rule out **secondary** causes that are treatable: antipsychotic-induced parkinsonism or sedation, depression, positive symptoms (withdrawal because of paranoia), substance use, and social deprivation.',
+        },
+        {
+          type: 'sort',
+          prompt: 'Classify each symptom.',
+          categories: ['Positive', 'Negative', 'Disorganized', 'Cognitive'],
+          items: [
+            { text: 'Hears two voices commenting on his actions', cat: 0, why: 'Hallucination: positive symptom.' },
+            { text: 'Sits for hours without initiating any activity', cat: 1, why: 'Avolition: negative symptom (rule out parkinsonism and depression).' },
+            { text: '"The radio told me the sandwich is the government\'s birthday blue"', cat: 2, why: 'Derailment/word salad: disorganized speech.' },
+            { text: 'Cannot hold a phone number in mind long enough to dial it', cat: 3, why: 'Working memory deficit: cognitive.' },
+            { text: 'Speaks very little; answers in single words', cat: 1, why: 'Alogia: negative symptom.' },
+            { text: 'Believes neighbors are poisoning his water', cat: 0, why: 'Persecutory delusion: positive symptom.' },
+          ],
+        },
+      ],
+      refs: ['dsm5tr', 'apa-scz-2020'],
+    },
+    {
+      id: 'spectrum',
+      title: 'Diagnosis by duration and mood timing',
+      lead: 'Two questions sort most psychotic disorders: how long, and how does psychosis relate to mood episodes?',
+      blocks: [
+        {
+          type: 'timeline',
+          title: 'Duration of illness (including prodrome and residual phases for schizophrenia)',
+          points: [
+            { at: '≥1 day – <1 month', label: 'Brief psychotic disorder', detail: 'Full return to baseline. Specify with marked stressor, without, or with postpartum onset.' },
+            { at: '1 – <6 months', label: 'Schizophreniform disorder', detail: '"Provisional" if not yet recovered; about two-thirds progress to schizophrenia or schizoaffective disorder.' },
+            { at: '≥6 months', label: 'Schizophrenia', detail: '≥1 month of active symptoms (≥2 criterion A symptoms, at least one being delusions, hallucinations, or disorganized speech) plus functional decline.', tone: 'warning' },
+          ],
+        },
+        {
+          type: 'criteria',
+          title: 'Schizophrenia: criterion A',
+          rule: '≥2 for a significant portion of 1 month (less if treated), at least one of the first three:',
+          items: ['Delusions', 'Hallucinations', 'Disorganized speech', 'Grossly disorganized or catatonic behavior', 'Negative symptoms'],
+          note: 'Plus continuous signs ≥6 months, functional decline, and not attributable to substances, a medical condition, or a mood disorder with psychotic features.',
+        },
+        {
+          type: 'compare',
+          caption: 'The mood question',
+          left: {
+            title: 'Mood disorder with psychotic features',
+            items: ['Psychosis occurs **only during** mood episodes', 'Treat the mood disorder + antipsychotic or ECT', 'Psychosis resolves as mood normalizes'],
+          },
+          right: {
+            title: 'Schizoaffective disorder',
+            items: ['Major mood episode concurrent with criterion A', '**≥2 weeks of psychosis without a mood episode**', 'Mood episodes present for the **majority** of the total illness duration', 'Bipolar or depressive type'],
+          },
+        },
+        {
+          type: 'list',
+          items: [
+            '**Delusional disorder**: ≥1 month of delusions, function not markedly impaired apart from the delusion; no other criterion A symptoms (except related hallucinations). Types: erotomanic, grandiose, jealous, persecutory, somatic, mixed.',
+            '**Schizophrenia with brief mood episodes** stays schizophrenia when mood episodes are present for only a minority of the illness.',
+            '**Substance/medication-induced psychotic disorder**: symptoms develop during or soon after exposure and do not persist for a substantial period (about 1 month) after cessation.',
+          ],
+        },
+        {
+          type: 'links',
+          items: [{ label: 'Practice: Diagnostic Pathfinder', to: '/tools/diagnostic', note: 'Walk duration and mood-timing logic on example cases.' }],
+        },
+      ],
+      refs: ['dsm5tr'],
+      check: [
+        {
+          id: 'psy-dx-1',
+          q: 'Hallucinations and delusions for 4 months with social withdrawal, now improving. No mood episodes, no substances. Diagnosis?',
+          options: ['Brief psychotic disorder', 'Schizophreniform disorder', 'Schizophrenia', 'Delusional disorder'],
+          answer: 1,
+          why: '1 to <6 months total duration = schizophreniform disorder.',
+        },
+        {
+          id: 'psy-dx-2',
+          q: 'Psychosis appears only during depressive episodes and clears when mood improves. Diagnosis?',
+          options: ['Schizoaffective disorder, depressive type', 'MDD with psychotic features', 'Schizophrenia', 'Brief psychotic disorder'],
+          answer: 1,
+          why: 'Schizoaffective requires ≥2 weeks of psychosis without a mood episode; here psychosis is confined to mood episodes.',
+        },
+      ],
+    },
+    {
+      id: 'workup',
+      title: 'First-episode psychosis workup',
+      lead: 'Rule out the treatable medical causes once, carefully, at the start.',
+      blocks: [
+        {
+          type: 'table',
+          head: ['Category', 'What to do'],
+          rows: [
+            ['History', 'Substances (cannabis potency, stimulants, synthetic cannabinoids, hallucinogens), medications (steroids, dopaminergic agents, anticholinergics), family history, timeline, collateral'],
+            ['Exam', 'Vital signs, full neurologic exam, signs of delirium (inattention, fluctuating awareness), catatonia'],
+            ['Labs (baseline)', 'CBC, CMP, TSH, glucose/HbA1c and lipids (antipsychotic baseline), urine toxicology, HIV, syphilis serology, pregnancy test; consider B12/folate'],
+            ['ECG', 'Baseline QTc before antipsychotics'],
+            ['When red flags', 'MRI, EEG, lumbar puncture with autoimmune encephalitis panel (anti-NMDAR), ceruloplasmin (age <40: Wilson disease), ANA'],
+          ],
+        },
+        {
+          type: 'callout',
+          tone: 'danger',
+          title: 'Red flags for a medical or neurologic cause',
+          items: [
+            'Fluctuating consciousness or inattention (delirium)',
+            'Onset after ~40–45 with no psychiatric history',
+            'Prominent visual, olfactory or tactile hallucinations',
+            'Seizures, dyskinesias, focal deficits, autonomic instability, catatonia',
+            'Abnormal vital signs, rapid cognitive decline, recent viral prodrome, severe reaction to low-dose antipsychotics (think anti-NMDAR encephalitis)',
+          ],
+        },
+        {
+          type: 'p',
+          text: 'Urine immunoassays miss synthetic cannabinoids, many novel psychoactive substances, and often fentanyl; a negative screen does not exclude substance-induced psychosis.',
+        },
+      ],
+      refs: ['nice-cg178', 'apa-scz-2020', 'dalmau-2019'],
+    },
+    {
+      id: 'csc',
+      title: 'Coordinated specialty care and psychosocial treatment',
+      lead: 'Medication is necessary but not sufficient: early, team-based care changes the trajectory.',
+      blocks: [
+        {
+          type: 'list',
+          items: [
+            '**Coordinated specialty care (CSC)** for first-episode psychosis: psychotherapy, family psychoeducation, supported employment/education (IPS), shared decision-making about medication, case management, peer support. RAISE-ETP showed better quality of life and symptoms, with the greatest benefit when **duration of untreated psychosis was short**.',
+            '**CBT for psychosis (CBTp)**, family interventions (reduce relapse), supported employment, cognitive remediation, and assertive community treatment for people with frequent crises.',
+            '**Physical health**: people with schizophrenia die 15–20 years earlier, mostly from cardiovascular disease. Address smoking (varenicline is safe and effective), diet, activity, diabetes and lipids.',
+          ],
+        },
+      ],
+      refs: ['raise-2016', 'apa-scz-2020', 'nice-cg178', 'eagles-2016'],
+    },
+    {
+      id: 'antipsychotics',
+      title: 'Choosing an antipsychotic',
+      lead: 'Except for clozapine, efficacy differences are small; choose by side effects, history and patient priorities.',
+      blocks: [
+        {
+          type: 'list',
+          items: [
+            'In network meta-analyses, efficacy differences are modest (clozapine clearly best; amisulpride, olanzapine and risperidone slightly ahead) while **side-effect differences are large** (Huhn 2019).',
+            '"Atypical first" is an oversimplification: CATIE and CUtLASS did not show second-generation agents as a class to be more effective than first-generation ones. FGAs carry more EPS and tardive dyskinesia; several SGAs carry more metabolic harm.',
+            '**First episode**: lower doses work and patients are more sensitive to side effects; start low.',
+            '**Adequate trial**: ≥6 weeks at a therapeutic dose with confirmed adherence. Little or no improvement by 2 weeks predicts poor response.',
+            '**Maintenance**: relapse within a year is roughly 27% on antipsychotics vs 64% on placebo (Leucht 2012). After a first episode, continue at least 1–2 years and decide together.',
+          ],
+        },
+        { type: 'widget', name: 'antipsychotic-profiles' },
+        {
+          type: 'table',
+          caption: 'Long-acting injectables (LAIs): consider early, not only after non-adherence',
+          head: ['Agent', 'Interval', 'Practical note'],
+          rows: [
+            ['Paliperidone palmitate', '1, 3 or 6 months', 'Longest interval options; prolactin elevation'],
+            ['Aripiprazole (monohydrate, lauroxil)', '1 to 2 months', 'Low metabolic and prolactin burden; akathisia'],
+            ['Risperidone (IM or subcutaneous formulations)', '2 weeks to 2 months', 'Several formulations need no oral overlap'],
+            ['Olanzapine pamoate (IM)', '2–4 weeks', '3-hour observation for post-injection delirium/sedation syndrome'],
+            ['Olanzapine extended-release SC (2026)', 'Monthly', 'No loading dose or routine post-injection observation; PDSS warning remains on the label'],
+            ['Haloperidol / fluphenazine decanoate', '2–4 weeks', 'Inexpensive; EPS/TD risk'],
+          ],
+        },
+        {
+          type: 'p',
+          text: 'In nationwide cohorts, LAIs were associated with lower rehospitalization than the same drugs given orally (Tiihonen 2017).',
+        },
+        {
+          type: 'table',
+          caption: 'Newer agents to know',
+          head: ['Agent', 'What is new', 'Watch for'],
+          rows: [
+            ['Xanomeline–trospium (2024)', 'First antipsychotic **without D2 blockade**: M1/M4 muscarinic agonist with a peripherally restricted anticholinergic', 'Nausea, vomiting, constipation, dyspepsia, tachycardia, urinary retention; take 1 h before or ≥2 h after meals; no EPS or prolactin rise'],
+            ['Lumateperone', 'Low metabolic, EPS and prolactin burden; also bipolar depression and MDD adjunct', 'Sedation'],
+            ['Olanzapine–samidorphan', 'Samidorphan blunts olanzapine weight gain', 'Contraindicated with opioids (precipitated withdrawal)'],
+            ['Milsaperidone (2026)', 'Iloperidone-related agent for schizophrenia and acute bipolar I mania/mixed episodes', 'Orthostasis, QTc (class profile of iloperidone)'],
+          ],
+        },
+      ],
+      refs: ['huhn-2019', 'leucht-2012', 'tiihonen-2017', 'apa-scz-2020', 'emergent2-2024', 'weltruza-2026', 'bysanti-2026'],
+      check: [
+        {
+          id: 'psy-ap-1',
+          q: 'Which antipsychotic works without dopamine D2 receptor blockade?',
+          options: ['Aripiprazole', 'Lumateperone', 'Xanomeline–trospium', 'Pimavanserin'],
+          answer: 2,
+          why: 'Xanomeline–trospium is a muscarinic M1/M4 agonist. Aripiprazole is a D2 partial agonist; lumateperone has D2 activity; pimavanserin is a 5-HT2A inverse agonist used for Parkinson disease psychosis.',
+        },
+      ],
+    },
+    {
+      id: 'clozapine',
+      title: 'Clozapine: the most effective, most under-used antipsychotic',
+      lead: 'Offer clozapine after two adequate failed trials, not after ten years.',
+      blocks: [
+        {
+          type: 'criteria',
+          title: 'Treatment-resistant schizophrenia (TRRIP)',
+          rule: 'All of:',
+          items: [
+            '≥2 adequate trials of different antipsychotics (≥6 weeks each at therapeutic dose)',
+            'Adherence confirmed (ideally with levels or an LAI)',
+            'Persistent symptoms of at least moderate severity with functional impairment',
+          ],
+        },
+        {
+          type: 'list',
+          title: 'Why clozapine',
+          items: [
+            'Superior efficacy in treatment-resistant schizophrenia.',
+            'Reduces suicidal behavior (FDA-approved indication) and aggression.',
+            'Associated with the lowest all-cause mortality among antipsychotics in large cohorts, despite its monitoring burden.',
+          ],
+        },
+        {
+          type: 'table',
+          caption: 'Monitoring and risks',
+          head: ['Risk', 'What to do'],
+          rows: [
+            ['Severe neutropenia', 'ANC before starting, then **weekly ×6 months, every 2 weeks for months 6–12, monthly thereafter** (per labeling). The REMS registry was removed in 2025, but ANC monitoring is still recommended. Benign ethnic (Duffy-null) neutropenia has its own thresholds.'],
+            ['Myocarditis / cardiomyopathy', 'Highest in the first 4–8 weeks: fever, tachycardia, chest pain, dyspnea. Many services check troponin and CRP weekly for the first month.'],
+            ['Constipation → ileus', 'Potentially fatal (FDA warning). Ask about bowel habits at every visit; prophylactic laxatives.'],
+            ['Seizures', 'Dose- and level-related; slow titration'],
+            ['Orthostasis, sedation, sialorrhea, tachycardia', 'Titrate slowly; restart titration if ≥48 h of doses missed'],
+            ['Metabolic', 'Weight, glucose, lipids; consider metformin early'],
+          ],
+        },
+        {
+          type: 'callout',
+          tone: 'warning',
+          title: 'Smoking and clozapine levels',
+          text: 'Tobacco smoke (not nicotine) induces CYP1A2. When a smoker stops abruptly, e.g. on admission to a smoke-free ward, clozapine and olanzapine levels can rise sharply (~50%) and cause toxicity. Fluvoxamine and ciprofloxacin also raise levels. Check levels and adjust doses.',
+        },
+      ],
+      refs: ['trrip-2017', 'intersept-2003', 'fda-clozapine-2025', 'apa-scz-2020'],
+      check: [
+        {
+          id: 'psy-clz-1',
+          q: 'A patient stable on clozapine is admitted to a smoke-free unit. Two days later he is sedated with new myoclonus. Most likely cause?',
+          options: ['NMS', 'Clozapine levels rose after smoking stopped', 'Agranulocytosis', 'Serotonin syndrome'],
+          answer: 1,
+          why: 'Stopping smoking removes CYP1A2 induction, so clozapine levels rise, causing sedation, myoclonus and seizure risk.',
+        },
+      ],
+    },
+    {
+      id: 'adverse',
+      title: 'Adverse effects: recognize and manage',
+      lead: 'Side effects are the main reason people stop antipsychotics. Ask about them specifically.',
+      blocks: [
+        { type: 'widget', name: 'eps-timeline' },
+        {
+          type: 'table',
+          head: ['Effect', 'Onset', 'Management'],
+          rows: [
+            ['Acute dystonia', 'Hours–days; young men, high-potency FGAs', 'IM/IV benztropine or diphenhydramine; laryngeal dystonia is an emergency'],
+            ['Akathisia', 'Days–weeks', 'Lower dose or switch; propranolol, mirtazapine 15 mg, or a benzodiazepine. Anticholinergics help little. Linked to distress, suicidality and non-adherence'],
+            ['Parkinsonism', 'Weeks', 'Lower dose or switch; anticholinergic or amantadine'],
+            ['Tardive dyskinesia', 'Months–years', 'AIMS exam every 6–12 months; **VMAT2 inhibitors** (valbenazine, deutetrabenazine) first-line for disabling TD; stop anticholinergics (they worsen TD); consider switching to clozapine'],
+            ['Hyperprolactinemia', 'Weeks', 'Risperidone, paliperidone, FGAs: amenorrhea, galactorrhea, sexual dysfunction, bone loss. Switch, or add low-dose aripiprazole'],
+            ['Metabolic syndrome', 'Weeks–months', 'Highest with clozapine and olanzapine; monitor; lifestyle; metformin; switch to a lower-risk agent'],
+            ['QTc prolongation', 'Dose-related', 'Ziprasidone, IV haloperidol, iloperidone, thioridazine/pimozide; ECG when risk factors are present; act if QTc >500 ms or rises >60 ms'],
+            ['Anticholinergic effects', 'Any', 'Clozapine, olanzapine, chlorpromazine: constipation, urinary retention, confusion (especially older adults)'],
+          ],
+        },
+        {
+          type: 'table',
+          caption: 'Metabolic monitoring (ADA/APA consensus)',
+          head: ['Measure', 'Baseline', 'Follow-up'],
+          rows: [
+            ['Weight/BMI', '✔', 'Weeks 4, 8, 12, then every 3 months'],
+            ['Waist circumference', '✔', 'Annually'],
+            ['Blood pressure', '✔', 'Week 12, then annually'],
+            ['Fasting glucose or HbA1c', '✔', 'Week 12, then annually'],
+            ['Fasting lipids', '✔', 'Week 12, then annually (or at least every 5 years if normal)'],
+          ],
+        },
+        {
+          type: 'callout',
+          tone: 'danger',
+          title: 'Boxed warning: older adults with dementia',
+          text: 'All antipsychotics increase mortality (~1.6–1.7×) in older adults with dementia-related psychosis. Use non-drug approaches first; if needed, the lowest dose for the shortest time, with consent and review. Brexpiprazole is FDA-approved for agitation in Alzheimer dementia (2023) and pimavanserin for Parkinson disease psychosis.',
+        },
+      ],
+      refs: ['ada-apa-2004', 'apa-scz-2020', 'huhn-2019'],
+      check: [
+        {
+          id: 'psy-ae-1',
+          q: 'Four days after starting haloperidol, a patient paces, cannot sit still, and says he feels "like jumping out of my skin". Best treatment?',
+          options: ['Add benztropine', 'Lower the dose and add propranolol', 'Increase haloperidol for agitation', 'Start valbenazine'],
+          answer: 1,
+          why: 'This is akathisia. Mistaking it for psychotic agitation and increasing the antipsychotic worsens it. Reduce or switch and add propranolol; anticholinergics help little.',
+        },
+      ],
+    },
+    {
+      id: 'agitation',
+      title: 'Acute agitation',
+      lead: 'Aim for calm, not sedation; de-escalate first and match the drug to the cause.',
+      blocks: [
+        {
+          type: 'list',
+          title: 'Verbal de-escalation (Project BETA)',
+          items: [
+            'Respect personal space; keep an exit route for both of you',
+            'Do not be provocative; one person speaks, with concise and simple language',
+            'Identify wants and feelings; listen closely; agree or agree to disagree',
+            'Set clear, respectful limits; offer choices (including oral medication) and optimism',
+            'Debrief the patient and staff afterwards',
+          ],
+        },
+        {
+          type: 'table',
+          caption: 'Medication by likely cause (offer oral first when feasible)',
+          head: ['Cause', 'Preferred', 'Avoid / caution'],
+          rows: [
+            ['Psychosis or mania', 'Oral/ODT olanzapine or risperidone; IM olanzapine, ziprasidone, or haloperidol ± lorazepam (or ± promethazine/diphenhydramine)', '**Do not co-administer IM olanzapine with parenteral benzodiazepines** (cardiorespiratory depression, deaths reported)'],
+            ['Alcohol or sedative withdrawal; stimulant intoxication', 'Benzodiazepine', 'Antipsychotics lower the seizure threshold and impair heat dissipation'],
+            ['Alcohol intoxication', 'Antipsychotic (e.g., haloperidol, droperidol)', 'Benzodiazepines: additive respiratory depression'],
+            ['Delirium', 'Treat the cause; low-dose antipsychotic only for danger or severe distress', 'Benzodiazepines worsen delirium (except in alcohol/benzodiazepine withdrawal)'],
+            ['Mild–moderate agitation in schizophrenia/bipolar (cooperative)', 'Sublingual dexmedetomidine or inhaled loxapine', 'Loxapine: bronchospasm risk (REMS; avoid in asthma/COPD)'],
+          ],
+        },
+        {
+          type: 'p',
+          text: 'After any parenteral sedation: monitor vital signs, airway and oxygen saturation, and QTc (haloperidol IV, droperidol, ziprasidone). Restraint or seclusion is a last resort with continuous observation.',
+        },
+      ],
+      refs: ['beta-deesc-2012', 'beta-pharm-2012'],
+      check: [
+        {
+          id: 'psy-ag-1',
+          q: 'An agitated, intoxicated man (alcohol level very high) needs sedation. Best choice?',
+          options: ['IM lorazepam', 'IM haloperidol', 'IM olanzapine + IM lorazepam together', 'Physical restraint only'],
+          answer: 1,
+          why: 'In alcohol intoxication, benzodiazepines add respiratory depression; an antipsychotic is preferred. IM olanzapine with parenteral benzodiazepines should not be combined.',
+        },
+      ],
+    },
+  ],
+  takeaways: [
+    'Duration sorts the spectrum: 1 day–1 month brief; 1–6 months schizophreniform; ≥6 months schizophrenia.',
+    'Psychosis only during mood episodes = mood disorder with psychotic features; ≥2 weeks of psychosis without mood = schizoaffective (if mood fills most of the illness).',
+    'Work up first-episode psychosis once, carefully; delirium and anti-NMDAR encephalitis are not to be missed.',
+    'Pick antipsychotics by side effects; use LAIs early; offer clozapine after two adequate failures.',
+    'Akathisia is not agitation. TD → VMAT2 inhibitor. Smoking cessation raises clozapine/olanzapine levels.',
+    'Don\'t combine IM olanzapine with parenteral benzodiazepines; avoid benzodiazepines in alcohol intoxication.',
+  ],
+  flashcards: [
+    { id: 'fc-psy-1', front: 'Brief psychotic disorder duration', back: '≥1 day but <1 month, with full return to baseline.' },
+    { id: 'fc-psy-2', front: 'Schizophreniform disorder duration', back: '1 month to <6 months.' },
+    { id: 'fc-psy-3', front: 'Schizophrenia duration rule', back: '≥6 months of continuous signs, including ≥1 month of active-phase symptoms.' },
+    { id: 'fc-psy-4', front: 'Schizoaffective disorder key criteria', back: 'Mood episode concurrent with criterion A; ≥2 weeks of delusions/hallucinations without a mood episode; mood episodes present for most of the illness.' },
+    { id: 'fc-psy-5', front: 'Delusional disorder', back: '≥1 month of delusions; functioning not markedly impaired; no other criterion A symptoms (related hallucinations allowed).' },
+    { id: 'fc-psy-6', front: 'Treatment-resistant schizophrenia definition', back: 'Failure of ≥2 adequate trials (≥6 weeks, therapeutic dose, confirmed adherence) of different antipsychotics.' },
+    { id: 'fc-psy-7', front: 'Clozapine ANC monitoring schedule', back: 'Weekly ×6 months, every 2 weeks months 6–12, then monthly. REMS removed 2025; monitoring still recommended.' },
+    { id: 'fc-psy-8', front: 'Clozapine: three potentially fatal non-hematologic risks', back: 'Myocarditis (first 4–8 weeks), ileus from constipation, seizures.' },
+    { id: 'fc-psy-9', front: 'Effect of quitting smoking on clozapine/olanzapine', back: 'Loss of CYP1A2 induction → levels rise (~50%) → toxicity. Reduce dose and check levels.' },
+    { id: 'fc-psy-10', front: 'EPS timeline heuristic', back: 'Dystonia: hours–days. Akathisia: days–weeks. Parkinsonism: weeks. Tardive dyskinesia: months–years.' },
+    { id: 'fc-psy-11', front: 'First-line treatment for disabling tardive dyskinesia', back: 'VMAT2 inhibitors: valbenazine or deutetrabenazine; stop anticholinergics.' },
+    { id: 'fc-psy-12', front: 'Akathisia treatment', back: 'Reduce dose or switch; propranolol, low-dose mirtazapine, or a benzodiazepine.' },
+    { id: 'fc-psy-13', front: 'Xanomeline–trospium mechanism', back: 'M1/M4 muscarinic agonist (xanomeline) + peripheral muscarinic antagonist (trospium); no D2 blockade.' },
+    { id: 'fc-psy-14', front: 'Antipsychotic combination to avoid in agitation', back: 'IM olanzapine with parenteral benzodiazepines (cardiorespiratory depression).' },
+    { id: 'fc-psy-15', front: 'Metabolic monitoring at baseline and week 12', back: 'Weight/BMI, waist, BP, fasting glucose/HbA1c, lipids. Weight also at weeks 4 and 8, then quarterly.' },
+    { id: 'fc-psy-16', front: 'Antipsychotics in dementia', back: 'Boxed warning: increased mortality (~1.6–1.7×). Non-drug approaches first; lowest dose, shortest time.' },
+    { id: 'fc-psy-17', front: 'Relapse after stopping antipsychotics (1 year)', back: '~64% on placebo vs ~27% on drug (Leucht 2012).' },
+  ],
+}
