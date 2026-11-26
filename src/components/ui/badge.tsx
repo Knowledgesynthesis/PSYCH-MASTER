@@ -1,28 +1,19 @@
-import * as React from "react"
-import { cn } from "@/lib/utils"
+import * as React from 'react'
+import { cn } from '@/lib/utils'
 
-export interface BadgeProps extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: "default" | "secondary" | "destructive" | "outline"
+export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
+  variant?: 'default' | 'secondary' | 'outline' | 'success' | 'warning' | 'danger'
 }
 
-function Badge({ className, variant = "default", ...props }: BadgeProps) {
-  const variantStyles = {
-    default: "border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
-    secondary: "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
-    destructive: "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
-    outline: "text-foreground",
-  }
-
-  return (
-    <div
-      className={cn(
-        "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
-        variantStyles[variant],
-        className
-      )}
-      {...props}
-    />
-  )
+const variants = {
+  default: 'bg-primary/10 text-primary border-transparent',
+  secondary: 'bg-muted text-muted-foreground border-transparent',
+  outline: 'border-border text-foreground',
+  success: 'bg-emerald-500/12 text-emerald-700 dark:text-emerald-300 border-transparent',
+  warning: 'bg-amber-500/15 text-amber-800 dark:text-amber-300 border-transparent',
+  danger: 'bg-red-500/12 text-red-700 dark:text-red-300 border-transparent',
 }
 
-export { Badge }
+export function Badge({ className, variant = 'default', ...props }: BadgeProps) {
+  return <span className={cn('inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-xs font-medium', variants[variant], className)} {...props} />
+}

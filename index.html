@@ -2,14 +2,30 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Interactive psychiatric reasoning platform for medical education - Master psychiatry diagnosis, treatment, and patient management" />
-    <meta name="theme-color" content="#1e293b" />
-    <title>Psych Master - Interactive Psychiatry Education</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="description" content="Psych Master — evidence-based psychiatry you can practice: 8 cited modules, clinical calculators, decision tools, branching cases, spaced-repetition flashcards and a vignette question bank." />
+    <meta name="theme-color" content="#0f172a" />
+    <meta property="og:title" content="Psych Master — evidence-based psychiatry, learned by doing" />
+    <meta property="og:description" content="Cited modules, interactive tools, cases, flashcards and a question bank for mood, anxiety, suicide risk, psychosis, trauma/OCD, substance use, psychopharmacology and psychiatric emergencies." />
+    <meta property="og:type" content="website" />
+    <title>Psych Master</title>
+    <script>
+      // Apply the saved theme before first paint to avoid a flash.
+      try {
+        var raw = localStorage.getItem('psych-master:prefs');
+        var pref = raw ? JSON.parse(raw).state.theme : 'system';
+        var dark = pref === 'dark' || (pref !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.classList.toggle('dark', dark);
+      } catch (e) {
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) document.documentElement.classList.add('dark');
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
+    <noscript>Psych Master needs JavaScript enabled.</noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
