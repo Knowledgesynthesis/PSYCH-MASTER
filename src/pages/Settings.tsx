@@ -1,125 +1,95 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Switch } from '@/components/ui/switch'
-import { useTheme } from '@/contexts/ThemeContext'
-import { Moon, Sun, Info, AlertTriangle } from 'lucide-react'
+import { useRef, useState } from 'react'
+import { Download, Monitor, Moon, Sun, Trash2, Upload } from 'lucide-react'
+import { usePrefs, type ThemePref } from '@/store/prefs'
+import { useProgress } from '@/store/progress'
+import { CONTENT_REVIEWED, modules, allFlashcards } from '@/content'
+import { questions } from '@/content/questions'
+import { references } from '@/content/references'
+import { PageHeader } from '@/components/PageHeader'
+import { Card } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 
 export function Settings() {
-  const { theme, toggleTheme } = useTheme()
+  const { theme, setTheme } = usePrefs()
+  const progress = useProgress()
+  const fileRef = useRef<HTMLInputElement>(null)
+  const [msg, setMsg] = useState<string | null>(null)
+
+  const exportData = () => {
+    const { sections, checks, attempts, flagged, cards, cases, activity } = useProgress.getState()
+    const blob = new Blob([JSON.stringify({ app: 'psych-master', version: 2, exportedAt: new Date().toISOString(), sections, checks, attempts, flagged, cards, cases, activity }, null, 2)], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `psych-master-progress-${new Date().toISOString().slice(0, 10)}.json`
+    a.click()
+    URL.revokeObjectURL(url)
+    setMsg('Progress exported.')
+  }
+
+  const importData = async (file: File) => {
+    try {
+      const data = JSON.parse(await file.text())
+      setMsg(progress.importData(data) ? 'Progress imported.' : 'That file does not look like a Psych Master export.')
+    } catch {
+      setMsg('Could not read that file.')
+    }
+  }
+
+  const themes: { v: ThemePref; label: string; icon: typeof Sun }[] = [
+    { v: 'system', label: 'System', icon: Monitor },
+    { v: 'light', label: 'Light', icon: Sun },
+    { v: 'dark', label: 'Dark', icon: Moon },
+  ]
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold mb-2">Settings</h1>
-        <p className="text-muted-foreground">Manage your preferences and learn more about Psych Master</p>
+    <div className="max-w-3xl">
+      <PageHeader eyebrow="Settings" title="Settings" />
+      <div className="space-y-5">
+        <Card className="p-5 sm:p-6">
+          <h2 className="mb-3 font-semibold">Appearance</h2>
+          <div className="grid grid-cols-3 gap-2">
+            {themes.map((t) => (
+              <button key={t.v} type="button" onClick={() => setTheme(t.v)} aria-pressed={theme === t.v} className={cn('flex flex-col items-center gap-1.5 rounded-xl border p-3 text-sm', theme === t.v ? 'border-primary bg-primary/10 text-primary' : 'border-border hover:bg-muted')}>
+                <t.icon className="h-5 w-5" /> {t.label}
+              </button>
+            ))}
+          </div>
+        </Card>
+
+        <Card className="p-5 sm:p-6">
+          <h2 className="mb-1 font-semibold">Your progress</h2>
+          <p className="mb-4 text-sm text-muted-foreground">Stored only in this browser; nothing is sent anywhere. Export it to move between devices or keep a backup.</p>
+          <div className="flex flex-wrap gap-2">
+            <Button variant="outline" onClick={exportData}><Download className="h-4 w-4" /> Export</Button>
+            <Button variant="outline" onClick={() => fileRef.current?.click()}><Upload className="h-4 w-4" /> Import</Button>
+            <input ref={fileRef} type="file" accept="application/json,.json" className="hidden" onChange={(e) => e.target.files?.[0] && importData(e.target.files[0])} />
+            <Button
+              variant="danger"
+              onClick={() => {
+                if (window.confirm('Reset all progress, answers and flashcard schedules? This cannot be undone.')) {
+                  progress.reset()
+                  setMsg('Progress reset.')
+                }
+              }}
+            >
+              <Trash2 className="h-4 w-4" /> Reset
+            </Button>
+          </div>
+          {msg && <p className="mt-3 text-sm" role="status">{msg}</p>}
+        </Card>
+
+        <Card className="p-5 sm:p-6">
+          <h2 className="mb-2 font-semibold">About</h2>
+          <ul className="space-y-1 text-sm text-muted-foreground">
+            <li>Version 2.0 · content reviewed {CONTENT_REVIEWED}</li>
+            <li>{modules.length} modules · {questions.length} questions · {allFlashcards.length} flashcards · {references.length} references</li>
+            <li>Aligned with DSM-5-TR and current guidelines (APA, CANMAT, NICE, VA/DoD, ASAM) and FDA actions through late 2026.</li>
+            <li>All cases are synthetic. Works offline once loaded (installable as an app).</li>
+          </ul>
+        </Card>
       </div>
-
-      {/* Theme Settings */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            {theme === 'dark' ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
-            Appearance
-          </CardTitle>
-          <CardDescription>Customize how Psych Master looks on your device</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <div className="text-sm font-medium">Dark Mode</div>
-              <div className="text-sm text-muted-foreground">
-                {theme === 'dark' ? 'Currently using dark theme' : 'Currently using light theme'}
-              </div>
-            </div>
-            <Switch checked={theme === 'dark'} onCheckedChange={toggleTheme} />
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* About Section */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Info className="h-5 w-5" />
-            About Psych Master
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div>
-            <h3 className="font-semibold mb-2">Mission</h3>
-            <p className="text-sm text-muted-foreground">
-              Psych Master is an interactive psychiatric reasoning platform designed to help medical students,
-              residents, and early clinicians master the diagnosis, treatment, and management of psychiatric conditions.
-              Our content is aligned with DSM-5-TR criteria, APA guidelines, and evidence-based best practices.
-            </p>
-          </div>
-          <div>
-            <h3 className="font-semibold mb-2">Features</h3>
-            <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
-              <li>7 comprehensive modules covering essential psychiatric topics</li>
-              <li>Interactive diagnostic tools and clinical reasoning exercises</li>
-              <li>Practice assessments with detailed explanations</li>
-              <li>Mobile-first design for learning on the go</li>
-              <li>Offline capability for uninterrupted access</li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="font-semibold mb-2">Version</h3>
-            <p className="text-sm text-muted-foreground">Psych Master v1.0.0</p>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Disclaimers */}
-      <Card className="border-yellow-500/50 bg-yellow-500/5">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-yellow-600 dark:text-yellow-500">
-            <AlertTriangle className="h-5 w-5" />
-            Important Disclaimers
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div>
-            <h3 className="font-semibold mb-2">Educational Use Only</h3>
-            <p className="text-sm text-muted-foreground">
-              Psych Master is designed exclusively for educational purposes. All clinical scenarios are synthetic
-              and created for learning. This platform is NOT a substitute for professional medical judgment,
-              clinical training, or individualized patient care.
-            </p>
-          </div>
-          <div>
-            <h3 className="font-semibold mb-2">Not Medical Advice</h3>
-            <p className="text-sm text-muted-foreground">
-              The information provided through Psych Master does not constitute medical advice, diagnosis, or treatment.
-              Always consult with qualified healthcare professionals for clinical decisions and patient care.
-              Never disregard professional medical advice or delay seeking it because of information from this platform.
-            </p>
-          </div>
-          <div>
-            <h3 className="font-semibold mb-2">Emergency Situations</h3>
-            <p className="text-sm text-muted-foreground">
-              If you or someone you know is experiencing a mental health emergency or having thoughts of suicide,
-              contact emergency services immediately (call 911 in the US) or go to the nearest emergency room.
-              You can also contact the National Suicide Prevention Lifeline at 988.
-            </p>
-          </div>
-          <div>
-            <h3 className="font-semibold mb-2">Clinical Guidelines</h3>
-            <p className="text-sm text-muted-foreground">
-              While Psych Master content is aligned with current clinical guidelines and best practices,
-              medical knowledge evolves constantly. Always refer to the most current clinical guidelines,
-              institutional protocols, and evidence-based resources when making clinical decisions.
-            </p>
-          </div>
-          <div>
-            <h3 className="font-semibold mb-2">Privacy & Data</h3>
-            <p className="text-sm text-muted-foreground">
-              Psych Master does not collect, store, or transmit any personal health information or user data.
-              All learning activities are performed locally on your device. No progress tracking or data export
-              features are included to maintain complete privacy.
-            </p>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   )
 }

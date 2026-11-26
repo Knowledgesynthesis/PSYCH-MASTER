@@ -232,6 +232,19 @@ export function evaluate(i: DxInput): DxOutput {
     }
   }
 
+  // Mood episodes within a primary psychotic disorder are not diagnosed separately.
+  const moodIds = new Set(['bp1', 'bp2', 'mdd', 'pdd', 'osbd', 'hypo-only'])
+  if (results.some((r) => r.id === 'schizoaffective')) {
+    for (let k = results.length - 1; k >= 0; k--) if (moodIds.has(results[k].id)) results.splice(k, 1)
+  } else if (results.some((r) => ['schizophrenia', 'schizophreniform', 'delusional'].includes(r.id))) {
+    for (const r of results) {
+      if (moodIds.has(r.id)) {
+        r.status = 'consider'
+        r.rationale.unshift('Mood episodes here occur within a primary psychotic illness for only a minority of its course; they are not diagnosed as a separate mood disorder')
+      }
+    }
+  }
+
   // ── Anxiety ──────────────────────────────────────────────────────
   if (c.anxiety) {
     const a = i.anx
@@ -262,7 +275,6 @@ export function evaluate(i: DxInput): DxOutput {
   // ── Obsessive-compulsive spectrum ────────────────────────────────
   if (c.oc) {
     const o = i.oc
-    const link = '/learn/trauma-ocd#ocd'
     const insightText = { good: 'with good or fair insight', poor: 'with poor insight', absent: 'with absent insight/delusional beliefs' }[o.insight]
     if (o.obsComp) results.push({ id: 'ocd', label: `Obsessive-compulsive disorder, ${insightText}`, status: 'meets', rationale: ['Obsessions and/or compulsions, time-consuming (>1 h/day) or impairing', ...(o.insight === 'absent' ? ['Absent insight does not convert OCD into a psychotic disorder'] : [])], next: ['ERP + SSRI at higher doses for 8–12 weeks', 'Y-BOCS to track severity'], link: '/learn/trauma-ocd#ocd-tx' })
     if (o.appearance) results.push({ id: 'bdd', label: 'Body dysmorphic disorder', status: 'meets', rationale: ['Preoccupation with perceived appearance flaws with repetitive behaviors'], next: ['Assess suicide risk; CBT for BDD + SSRI; discourage cosmetic procedures'], link: '/learn/trauma-ocd#related' })
