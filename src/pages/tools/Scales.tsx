@@ -31,7 +31,7 @@ export function Scales() {
         ))}
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,340px)]">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,340px)]">
         <Card className="p-5 sm:p-6">
           <div className="mb-4">
             <h2 className="text-lg font-semibold">{scale.name}</h2>
@@ -63,8 +63,12 @@ export function Scales() {
                       )
                     })}
                   </div>
-                  {it.options.length > 5 && a[it.id] !== undefined && (
-                    <p className="mt-1 text-xs text-muted-foreground">{it.options.find((o) => o.score === a[it.id])?.label}</p>
+                  {it.options.length > 5 && (
+                    <ul className="mt-1.5 grid gap-x-4 gap-y-0.5 text-xs text-muted-foreground sm:grid-cols-2">
+                      {it.options.filter((o) => !o.label.startsWith('Between')).map((o) => (
+                        <li key={o.score} className={cn(a[it.id] === o.score && 'font-medium text-foreground')}><span className="tabular-nums font-semibold">{o.score}</span> = {o.label}</li>
+                      ))}
+                    </ul>
                   )}
                 </fieldset>
               </li>

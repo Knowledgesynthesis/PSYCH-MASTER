@@ -89,6 +89,10 @@ export const weights: Record<string, W> = {
   etco2: { mh: 6 },
 }
 
+/** Exposure that each syndrome requires; without it the syndrome is much less likely. */
+export const requiredExposure: Partial<Record<SyndromeId, string>> = { ss: 'serotonergic', nms: 'd2', ac: 'anticholinergic', sym: 'stimulant', mh: 'anesthetic', wd: 'cessation' }
+const MISSING_EXPOSURE_PENALTY = 3
+
 export interface RankedSyndrome extends Syndrome {
   score: number
   support: string[]
@@ -108,6 +112,11 @@ export function rankSyndromes(selected: Iterable<string>): RankedSyndrome[] {
         score += w
         if (w > 0) support.push(featureLabel[f])
         if (w < 0) against.push(featureLabel[f])
+      }
+      const need = requiredExposure[s.id]
+      if (need && !sel.includes(need)) {
+        score -= MISSING_EXPOSURE_PENALTY
+        against.push(`No ${featureLabel[need].charAt(0).toLowerCase()}${featureLabel[need].slice(1)}`)
       }
       return { ...s, score, support, against }
     })

@@ -95,7 +95,7 @@ export function ModulePage() {
         )}
       </header>
 
-      <div className="grid gap-10 xl:grid-cols-[minmax(0,1fr)_220px]">
+      <div className="grid grid-cols-1 gap-10 xl:grid-cols-[minmax(0,1fr)_220px]">
         <div className="min-w-0 space-y-14">
           {m.sections.map((s, si) => {
             const key = `${m.id}/${s.id}`
@@ -141,7 +141,7 @@ export function ModulePage() {
 
           <section>
             <h2 className="mb-3 text-lg font-bold">Lock it in</h2>
-            <div className="grid gap-3 sm:grid-cols-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
               <Link to={`/practice/questions?module=${m.id}`} className="rounded-2xl border border-border bg-card p-4 hover:shadow-md">
                 <ClipboardList className="mb-2 h-5 w-5 text-primary" />
                 <div className="font-semibold">{nq} questions</div>

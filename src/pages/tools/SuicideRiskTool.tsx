@@ -63,11 +63,11 @@ export function SuicideRiskTool() {
         </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,400px)]">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,400px)]">
         <div className="space-y-4">
           <Card className="p-5 sm:p-6">
             <h2 className="mb-3 font-semibold">1. Suicidal ideation (most severe)</h2>
-            <div className="grid gap-2 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
               {ideationLevels.map((l) => (
                 <label key={l.value} className={cn('flex cursor-pointer items-start gap-3 rounded-xl border p-3 text-sm', input.ideation === l.value ? 'border-primary bg-primary/5' : 'border-border hover:bg-muted/60')}>
                   <input type="radio" name="ideation" className="mt-0.5 accent-[var(--primary)]" checked={input.ideation === l.value} onChange={() => setInput({ ...input, ideation: l.value as Ideation })} />
@@ -91,21 +91,21 @@ export function SuicideRiskTool() {
 
           <Card className="p-5 sm:p-6">
             <h2 className="mb-3 font-semibold">3. Acute / modifiable factors and warning signs</h2>
-            <div className="grid gap-2 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
               {acuteFactors.map((x) => <Check key={x.id} checked={input.acute.includes(x.id)} onChange={() => setInput({ ...input, acute: toggle(input.acute, x.id) })} label={x.label} />)}
             </div>
           </Card>
 
           <Card className="p-5 sm:p-6">
             <h2 className="mb-3 font-semibold">4. Longer-term risk factors</h2>
-            <div className="grid gap-2 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
               {chronicFactors.map((x) => <Check key={x.id} checked={input.chronic.includes(x.id)} onChange={() => setInput({ ...input, chronic: toggle(input.chronic, x.id) })} label={x.label} />)}
             </div>
           </Card>
 
           <Card className="p-5 sm:p-6">
             <h2 className="mb-3 font-semibold">5. Protective factors</h2>
-            <div className="grid gap-2 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
               {protectiveFactors.map((x) => <Check key={x.id} checked={input.protective.includes(x.id)} onChange={() => setInput({ ...input, protective: toggle(input.protective, x.id) })} label={x.label} />)}
             </div>
           </Card>

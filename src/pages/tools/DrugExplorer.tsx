@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { ChevronDown, GitCompare, Search, X } from 'lucide-react'
 import { AD_DIMS, AP_DIMS, drugById, drugs, type Drug, type DrugGroup } from '@/content/drugs'
@@ -26,7 +26,7 @@ function Field({ title, items, tone }: { title: string; items?: string[]; tone?:
 function DrugDetail({ d }: { d: Drug }) {
   const dims = d.group === 'Antipsychotic' ? AP_DIMS : AD_DIMS
   return (
-    <div className="grid gap-4 border-t border-border pt-4 sm:grid-cols-2">
+    <div className="grid grid-cols-1 gap-4 border-t border-border pt-4 sm:grid-cols-2">
       <div className="sm:col-span-2 text-sm"><span className="font-semibold">Mechanism:</span> {d.mechanism}</div>
       <Field title="Uses" items={d.uses} />
       <Field title="Adverse effects" items={d.adverse} />
@@ -61,6 +61,12 @@ export function DrugExplorer() {
     const t = q.trim().toLowerCase()
     return drugs.filter((d) => (group === 'All' || d.group === group) && (!t || [d.name, d.cls, d.mechanism, ...d.uses, ...d.adverse, ...(d.warnings ?? []), ...(d.pearls ?? [])].join(' ').toLowerCase().includes(t)))
   }, [q, group])
+
+  useEffect(() => {
+    if (!openId) return
+    const t = setTimeout(() => document.getElementById(openId)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80)
+    return () => clearTimeout(t)
+  }, [openId])
 
   const toggleCompare = (id: string) => setCompare((c) => (c.includes(id) ? c.filter((x) => x !== id) : c.length >= 3 ? c : [...c, id]))
   const compared = compare.map((id) => drugById[id] as Drug)
@@ -117,7 +123,7 @@ export function DrugExplorer() {
             {filtered.map((d) => {
               const open = openId === d.id
               return (
-                <Card key={d.id} id={d.id} className={cn('p-4 sm:p-5', open && 'border-primary/50')}>
+                <Card key={d.id} id={d.id} className={cn('scroll-mt-20 p-4 sm:p-5', open && 'border-primary/50')}>
                   <div className="flex items-start gap-3">
                     <button type="button" className="min-w-0 flex-1 text-left" onClick={() => setParams(open ? {} : { drug: d.id }, { replace: true })} aria-expanded={open}>
                       <div className="flex flex-wrap items-center gap-2">

@@ -21,7 +21,7 @@ export function PracticeHub() {
   return (
     <div>
       <PageHeader eyebrow="Practice" title="Practice">Retrieval beats rereading. Test yourself early and often, then space the reviews.</PageHeader>
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         {items.map((it) => (
           <Link key={it.to} to={it.to} className="group flex flex-col rounded-2xl border border-border bg-card p-5 transition-shadow hover:shadow-md">
             <it.icon className="mb-3 h-7 w-7 text-primary" />

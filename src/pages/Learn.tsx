@@ -15,7 +15,7 @@ export function Learn() {
       <PageHeader eyebrow="Learn" title="Modules">
         Each module is cited, ends with practice, and links to the tools that apply it. Work through them in order or jump to what you need.
       </PageHeader>
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {modules.map((m, i) => {
           const d = m.sections.filter((s) => sections[`${m.id}/${s.id}`]).length
           const nq = questions.filter((q) => q.module === m.id).length

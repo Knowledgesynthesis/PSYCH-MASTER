@@ -71,52 +71,26 @@ export interface Formulation {
 const nameOf = (list: Factor[], ids: string[]) => ids.map((id) => list.find((f) => f.id === id)?.label).filter(Boolean) as string[]
 
 export function formulate(input: SuicideInput): Formulation {
-  const reasons: string[] = []
   const has = (id: string) => input.acute.includes(id)
   const activeIdeation = input.recentIdeation ? input.ideation : 0
-
-  let tier: Tier = 'low'
+  const high: string[] = []
+  const moderate: string[] = []
 
   // High-acuity triggers
-  if (activeIdeation >= 4) {
-    tier = 'high'
-    reasons.push(activeIdeation === 5 ? 'Suicidal intent with a plan in the past month' : 'Suicidal intent in the past month')
-  }
-  if (input.behavior === 'recent') {
-    tier = 'high'
-    reasons.push('Suicidal behavior (attempt, interrupted/aborted attempt or preparation) within 3 months')
-  }
-  if (has('command') && input.ideation >= 1) {
-    tier = 'high'
-    reasons.push('Command hallucinations to self-harm with suicidal thinking')
-  }
-  if (activeIdeation >= 3 && (has('agitation') || has('noengage'))) {
-    tier = 'high'
-    reasons.push(has('noengage') ? 'Ideation with method and inability to engage in safety planning' : 'Ideation with method plus severe agitation/insomnia')
-  }
+  if (activeIdeation >= 4) high.push(activeIdeation === 5 ? 'Suicidal intent with a plan in the past month' : 'Suicidal intent in the past month')
+  if (input.behavior === 'recent') high.push('Suicidal behavior (attempt, interrupted/aborted attempt or preparation) within 3 months')
+  if (has('command') && input.ideation >= 1) high.push('Command hallucinations to self-harm with suicidal thinking')
+  if (activeIdeation >= 3 && has('noengage')) high.push('Ideation with method and inability to engage in safety planning')
+  if (activeIdeation >= 3 && has('agitation')) high.push('Ideation with method plus severe agitation/insomnia')
 
-  // Moderate triggers
-  if (tier === 'low') {
-    if (activeIdeation === 3) {
-      tier = 'moderate'
-      reasons.push('Suicidal thoughts with a method, without intent or behavior')
-    }
-    if (input.behavior === 'lifetime') {
-      tier = 'moderate'
-      reasons.push('Lifetime suicidal behavior (>3 months ago): the strongest long-term risk factor')
-    }
-    const lethalAccess = has('firearm') || has('meds')
-    if (activeIdeation >= 2 && lethalAccess) {
-      tier = 'moderate'
-      reasons.push('Active suicidal thoughts with access to lethal means')
-    }
-    const burden = input.acute.length + input.chronic.length
-    if (activeIdeation >= 1 && burden >= 4 && input.protective.length <= 1) {
-      tier = 'moderate'
-      reasons.push('Multiple risk factors with few protective factors')
-    }
-  }
+  // Moderate-acuity concerns (also listed alongside high triggers for transparency)
+  if (activeIdeation === 3) moderate.push('Suicidal thoughts with a method')
+  if (input.behavior === 'lifetime') moderate.push('Lifetime suicidal behavior (>3 months ago): the strongest long-term risk factor')
+  if (activeIdeation >= 2 && (has('firearm') || has('meds'))) moderate.push('Active suicidal thoughts with access to lethal means')
+  if (activeIdeation >= 1 && input.acute.length + input.chronic.length >= 4 && input.protective.length <= 1) moderate.push('Multiple risk factors with few protective factors')
 
+  const tier: Tier = high.length ? 'high' : moderate.length ? 'moderate' : 'low'
+  const reasons = [...high, ...moderate]
   if (tier === 'low') {
     if (activeIdeation === 0 && input.behavior === 'none') reasons.push('No recent suicidal ideation or behavior reported (risk is never zero; address modifiable factors)')
     else reasons.push('Passive or non-specific ideation without method, intent or behavior')

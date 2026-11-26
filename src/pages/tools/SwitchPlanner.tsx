@@ -33,7 +33,7 @@ export function SwitchPlanner() {
         Choose the current and target antidepressant to get a strategy, timeline, cautions and monitoring plan. Doses are deliberately generic: titrate to each label.
       </PageHeader>
       <Card className="mb-6 p-5 sm:p-6">
-        <div className="grid items-end gap-4 sm:grid-cols-[1fr_auto_1fr]">
+        <div className="grid grid-cols-1 items-end gap-4 sm:grid-cols-[1fr_auto_1fr]">
           <DrugSelect id="from" label="Switching from" value={from} onChange={setFrom} />
           <Button variant="ghost" size="icon" aria-label="Swap" onClick={() => { setFrom(to); setTo(from) }} className="mx-auto"><ArrowLeftRight className="h-5 w-5" /></Button>
           <DrugSelect id="to" label="Switching to" value={to} onChange={setTo} />
@@ -51,7 +51,7 @@ export function SwitchPlanner() {
       {!plan ? (
         <p className="text-muted-foreground">Choose two different drugs.</p>
       ) : (
-        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,360px)]" aria-live="polite">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,360px)]" aria-live="polite">
           <Card className="p-5 sm:p-6">
             <div className="mb-1 flex flex-wrap items-center gap-2">
               <Badge variant={strategyVariant[plan.strategy]}>{plan.strategy}</Badge>

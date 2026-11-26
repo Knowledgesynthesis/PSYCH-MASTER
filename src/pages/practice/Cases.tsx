@@ -14,7 +14,7 @@ export function Cases() {
       <PageHeader eyebrow="Practice" title="Clinical cases">
         Realistic, synthetic patients. Make each decision, get immediate feedback on why it was best, acceptable or harmful, then read the debrief.
       </PageHeader>
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {cases.map((c) => {
           const r = results[c.id]
           return (

@@ -64,7 +64,7 @@ export function Home() {
       </section>
 
       {(cards.due > 0 || weak.length > 0) && (
-        <section className="grid gap-3 md:grid-cols-2">
+        <section className="grid grid-cols-1 gap-3 md:grid-cols-2">
           {cards.due > 0 && (
             <Link to="/practice/flashcards" className="group flex items-center gap-4 rounded-2xl border border-primary/30 bg-primary/[0.05] p-4 hover:bg-primary/[0.09]">
               <Repeat2 className="h-8 w-8 shrink-0 text-primary" />
@@ -99,7 +99,7 @@ export function Home() {
           </div>
           <Link to="/learn" className="text-sm font-medium text-primary hover:underline">All modules</Link>
         </div>
-        <div className="grid gap-3 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {modules.map((m, i) => {
             const d = m.sections.filter((s) => p.sections[`${m.id}/${s.id}`]).length
             return (
@@ -126,7 +126,7 @@ export function Home() {
       <section>
         <h2 className="mb-1 text-xl font-bold tracking-tight">Clinical tools</h2>
         <p className="mb-4 text-sm text-muted-foreground">Apply what you learned to realistic inputs; each tool explains its reasoning.</p>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {tools.map((t) => (
             <Link key={t.id} to={t.to} className="group rounded-2xl border border-border bg-card p-4 transition-shadow hover:shadow-md">
               <div className="mb-1 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-primary"><Wrench className="h-3.5 w-3.5" /> {t.tag}</div>
@@ -140,7 +140,7 @@ export function Home() {
       <section className="rounded-2xl border border-border bg-card p-5 sm:p-6">
         <h2 className="mb-1 flex items-center gap-2 text-lg font-bold"><Brain className="h-5 w-5 text-primary" /> How to reach mastery here</h2>
         <p className="mb-4 text-sm text-muted-foreground">The loop below uses retrieval practice, spacing and interleaving, which rank highest in learning-science reviews.</p>
-        <ol className="grid gap-3 sm:grid-cols-4">
+        <ol className="grid grid-cols-1 gap-3 sm:grid-cols-4">
           {[
             ['Learn', 'Read one section; attempt its "Check yourself" before moving on.'],
             ['Retrieve', 'Do the module\'s question set; read every rationale, including for the options you ruled out.'],

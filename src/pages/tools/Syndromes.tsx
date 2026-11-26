@@ -40,7 +40,7 @@ export function Syndromes() {
           <Chip key={p.label} active={false} onClick={() => setSel(new Set(p.f))}>{p.label}</Chip>
         ))}
       </div>
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,380px)]">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,380px)]">
         <div className="space-y-4">
           {groups.map((g) => (
             <Card key={g} className="p-5">

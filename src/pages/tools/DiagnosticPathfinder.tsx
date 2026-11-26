@@ -77,10 +77,10 @@ export function DiagnosticPathfinder() {
         </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,380px)]">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,380px)]">
         <div className="space-y-4">
           <Step n={1} title="Safety">
-            <div className="grid gap-2 sm:grid-cols-3">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
               <Check checked={input.safety.imminent} onChange={(v) => set('safety', { imminent: v })} label="Suicidal intent or plan" />
               <Check checked={input.safety.homicidal} onChange={(v) => set('safety', { homicidal: v })} label="Threat to others" />
               <Check checked={input.safety.selfcare} onChange={(v) => set('safety', { selfcare: v })} label="Cannot care for self" />
@@ -88,7 +88,7 @@ export function DiagnosticPathfinder() {
           </Step>
 
           <Step n={2} title="Medical and substance causes">
-            <div className="grid gap-2 sm:grid-cols-3">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
               <Check checked={input.organic.delirium} onChange={(v) => set('organic', { delirium: v })} label="Fluctuating attention/awareness" detail="Possible delirium" />
               <Check checked={input.organic.substance} onChange={(v) => set('organic', { substance: v })} label="Substance or medication explains it" />
               <Check checked={input.organic.medical} onChange={(v) => set('organic', { medical: v })} label="Medical condition explains it" />
@@ -113,7 +113,7 @@ export function DiagnosticPathfinder() {
           {(c.depression || c.elevation || c.psychosis) && (
             <Step n={4} title="Mood details">
               {c.depression && (
-                <div className="grid gap-2 sm:grid-cols-2">
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                   <Check checked={input.dep.fullMde} onChange={(v) => set('dep', { fullMde: v })} label="Meets MDE now" detail="≥5 of 9 for ≥2 weeks incl. mood or anhedonia" />
                   <Check checked={input.dep.chronic2y} onChange={(v) => set('dep', { chronic2y: v })} label="Depressed most days ≥2 years" />
                   <Check checked={input.dep.peripartum} onChange={(v) => set('dep', { peripartum: v })} label="Onset in pregnancy or ≤4 weeks postpartum" />
@@ -126,7 +126,7 @@ export function DiagnosticPathfinder() {
                     <div className="mb-1.5 text-sm font-medium">Duration of elevated/irritable mood + increased energy</div>
                     <Segmented value={input.elev.duration} onChange={(v) => set('elev', { duration: v })} label="Elevation duration" options={[{ value: 'lt4', label: '<4 days' }, { value: '4to6', label: '4–6 days' }, { value: 'ge7', label: '≥7 days' }]} />
                   </div>
-                  <div className="grid gap-2 sm:grid-cols-2">
+                  <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                     <Check checked={input.elev.symptomsMet} onChange={(v) => set('elev', { symptomsMet: v })} label="≥3 DIG FAST symptoms (≥4 if only irritable)" />
                     <Check checked={input.elev.marked} onChange={(v) => set('elev', { marked: v })} label="Marked impairment" />
                     <Check checked={input.elev.hospitalized} onChange={(v) => set('elev', { hospitalized: v })} label="Hospitalized for it" />
@@ -136,7 +136,7 @@ export function DiagnosticPathfinder() {
               )}
               <div>
                 <div className="mb-1.5 text-sm font-medium">Lifetime history (past episodes)</div>
-                <div className="grid gap-2 sm:grid-cols-3">
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
                   <Check checked={input.hx.mania} onChange={(v) => set('hx', { mania: v })} label="Past manic episode" />
                   <Check checked={input.hx.hypomania} onChange={(v) => set('hx', { hypomania: v })} label="Past hypomanic episode" />
                   <Check checked={input.hx.mde} onChange={(v) => set('hx', { mde: v })} label="Past major depressive episode" />
@@ -151,7 +151,7 @@ export function DiagnosticPathfinder() {
                 <div className="mb-1.5 text-sm font-medium">Total duration of the psychotic illness</div>
                 <Segmented value={input.psy.duration} onChange={(v) => set('psy', { duration: v })} label="Psychosis duration" options={[{ value: 'lt1d', label: '<1 day' }, { value: '1dto1m', label: '1 d–1 mo' }, { value: '1to6m', label: '1–6 mo' }, { value: 'ge6m', label: '≥6 mo' }]} />
               </div>
-              <div className="grid gap-2 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                 <Check checked={input.psy.onlyDuringMood} onChange={(v) => set('psy', { onlyDuringMood: v, withoutMood2w: v ? false : input.psy.withoutMood2w })} label="Psychosis only during mood episodes" />
                 <Check checked={input.psy.withoutMood2w} onChange={(v) => set('psy', { withoutMood2w: v, onlyDuringMood: v ? false : input.psy.onlyDuringMood })} label="≥2 weeks of psychosis without mood episode" />
                 <Check checked={input.psy.moodMajority} onChange={(v) => set('psy', { moodMajority: v })} label="Mood episodes span most of the illness" />
@@ -163,7 +163,7 @@ export function DiagnosticPathfinder() {
 
           {c.anxiety && (
             <Step n={6} title="Anxiety pattern">
-              <div className="grid gap-2 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                 <Check checked={input.anx.worry} onChange={(v) => set('anx', { worry: v })} label="Excessive multi-topic worry ≥6 months" />
                 <Check checked={input.anx.panic} onChange={(v) => set('anx', { panic: v })} label="Unexpected panic attacks + ≥1 month worry" />
                 <Check checked={input.anx.agora} onChange={(v) => set('anx', { agora: v })} label="Avoids ≥2 agoraphobic situations" />
@@ -175,7 +175,7 @@ export function DiagnosticPathfinder() {
 
           {c.trauma && (
             <Step n={7} title="Trauma, stressor or loss">
-              <div className="grid gap-2 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                 <Check checked={input.tr.exposureA} onChange={(v) => set('tr', { exposureA: v })} label="Criterion A trauma" detail="Actual/threatened death, serious injury, sexual violence" />
                 <Check checked={input.tr.fullClusters} onChange={(v) => set('tr', { fullClusters: v })} label="Full symptom clusters present" />
                 <Check checked={input.tr.nonTraumaStressor} onChange={(v) => set('tr', { nonTraumaStressor: v })} label="Non-traumatic stressor within 3 months" />
@@ -192,7 +192,7 @@ export function DiagnosticPathfinder() {
 
           {c.oc && (
             <Step n={8} title="Obsessive-compulsive spectrum">
-              <div className="grid gap-2 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                 <Check checked={input.oc.obsComp} onChange={(v) => set('oc', { obsComp: v })} label="Obsessions/compulsions >1 h/day or impairing" />
                 <Check checked={input.oc.appearance} onChange={(v) => set('oc', { appearance: v })} label="Preoccupied with perceived appearance flaws" />
                 <Check checked={input.oc.hoarding} onChange={(v) => set('oc', { hoarding: v })} label="Cannot discard; cluttered living space" />

@@ -56,7 +56,7 @@ export function CasePlayer() {
                 <div className="mb-2 text-xs font-semibold text-muted-foreground">Decision {si + 1} of {c.steps.length}</div>
                 <p className="leading-relaxed"><Inline text={s.narrative} /></p>
                 {s.data && (
-                  <dl className="mt-3 grid gap-2 rounded-xl bg-muted/60 p-3 text-sm sm:grid-cols-2">
+                  <dl className="mt-3 grid grid-cols-1 gap-2 rounded-xl bg-muted/60 p-3 text-sm sm:grid-cols-2">
                     {s.data.map((d) => (
                       <div key={d.label}><dt className="text-xs font-semibold text-muted-foreground">{d.label}</dt><dd>{d.value}</dd></div>
                     ))}

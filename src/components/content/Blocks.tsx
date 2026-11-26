@@ -61,7 +61,7 @@ export function BlockView({ block }: { block: Block }) {
             <h4 className="font-semibold">{block.title}</h4>
             <span className="text-sm text-muted-foreground"><Inline text={block.rule} /></span>
           </div>
-          <ul className="mt-3 grid gap-2 sm:grid-cols-2">
+          <ul className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
             {block.items.map((it, i) => (
               <li key={i} className="flex items-start gap-2 rounded-lg bg-muted/50 px-3 py-2 text-sm">
                 <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
@@ -126,7 +126,7 @@ export function BlockView({ block }: { block: Block }) {
       return (
         <figure>
           {block.caption && <figcaption className="mb-2 text-sm font-semibold">{block.caption}</figcaption>}
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             {[block.left, block.right].map((col, i) => (
               <div key={i} className={cn('rounded-2xl border p-4', i === 0 ? 'border-sky-500/30 bg-sky-500/[0.05]' : 'border-violet-500/30 bg-violet-500/[0.05]')}>
                 <h4 className="mb-2 font-semibold">{col.title}</h4>
@@ -161,7 +161,7 @@ export function BlockView({ block }: { block: Block }) {
       return (
         <div className="rounded-2xl border border-border bg-card p-4 sm:p-5">
           <h4 className="mb-3 font-semibold">{block.title}</h4>
-          <ul className="grid gap-1.5 sm:grid-cols-2">
+          <ul className="grid grid-cols-1 gap-1.5 sm:grid-cols-2">
             {block.letters.map((l, i) => (
               <li key={i} className="flex items-start gap-3 text-sm">
                 <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-primary/10 font-bold text-primary">{l.l}</span>
@@ -176,7 +176,7 @@ export function BlockView({ block }: { block: Block }) {
       return (
         <div className="rounded-2xl border border-border bg-card p-4 sm:p-5">
           <h4 className="mb-3 font-semibold">{block.title}</h4>
-          <ol className="grid gap-3 sm:grid-cols-[repeat(auto-fit,minmax(150px,1fr))]">
+          <ol className="grid grid-cols-1 gap-3 sm:grid-cols-[repeat(auto-fit,minmax(150px,1fr))]">
             {block.points.map((pt, i) => (
               <li key={i} className={cn('rounded-xl border p-3', pt.tone ? toneStyles[pt.tone].box : 'border-border bg-muted/40')}>
                 <div className={cn('text-xs font-semibold uppercase tracking-wide', pt.tone ? toneStyles[pt.tone].title : 'text-primary')}>{pt.at}</div>

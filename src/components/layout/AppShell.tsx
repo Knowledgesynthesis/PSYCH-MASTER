@@ -68,7 +68,7 @@ function SideNav({ onNavigate }: { onNavigate?: () => void }) {
         <div className="mb-1 px-3 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/80">Tools</div>
         <div className="space-y-0.5">
           {tools.map((t) => (
-            <NavLink key={t.id} to={t.to} className={link} onClick={onNavigate}><Wrench className="h-4 w-4" /> <span className="truncate">{t.title}</span></NavLink>
+            <NavLink key={t.id} to={t.to} className={link} onClick={onNavigate}><Wrench className="h-4 w-4" /> <span className="truncate">{t.nav}</span></NavLink>
           ))}
         </div>
       </div>

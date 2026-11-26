@@ -11,7 +11,7 @@ export function ToolsHub() {
       <PageHeader eyebrow="Apply" title="Clinical tools">
         Each tool makes its reasoning visible, so using it teaches the logic rather than replacing it.
       </PageHeader>
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         {tools.map((t) => {
           const Icon = icons[t.icon as keyof typeof icons] ?? Route
           return (

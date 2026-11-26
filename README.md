@@ -1,132 +1,43 @@
 # Psych Master
 
-An interactive psychiatric reasoning platform for medical education, designed to help medical students, residents, and early clinicians master psychiatric diagnosis, treatment, and patient management.
+Evidence-based psychiatry you learn by doing. Psych Master is an offline-capable web app for medical students, residents and clinicians covering mood, anxiety, suicide risk, psychosis, trauma/OCD, substance use, psychopharmacology, and psychiatric emergencies.
 
-## Features
+**Content reviewed November 2026** against DSM-5-TR, current guidelines (APA, CANMAT, NICE, VA/DoD, ASAM) and FDA actions through late 2026. Every module section cites its sources; see [`docs/CONTENT-AUDIT.md`](docs/CONTENT-AUDIT.md) for what was corrected and added.
 
-### 🧠 Comprehensive Content Modules
+## What's inside
 
-- **Mood Disorders**: Depression, bipolar disorder, and mood stabilizers
-- **Anxiety Disorders**: GAD, panic disorder, social anxiety, and phobias
-- **Suicide Risk Assessment**: Safety evaluation and crisis management
-- **Psychosis & Schizophrenia**: Diagnosis and antipsychotic management
-- **PTSD & OCD**: Trauma-related disorders and obsessive-compulsive spectrum
-- **Substance Use Disorders**: Intoxication, withdrawal, and MAT
-- **Psychopharmacology**: Comprehensive medication guide with side effects and switching strategies
+| | |
+|---|---|
+| **8 modules** | 50 sections and 43 inline self-checks; every section has a clinical "why it matters", criteria tables, pitfalls, classify-and-reveal exercises and cited sources |
+| **72-question bank** | Vignettes at three levels with a rationale for *every* option; practice mode, timed exam mode, retry missed, flagging, per-topic accuracy |
+| **123 flashcards** | Spaced repetition (SM-2 family) with honest-grading prompts and keyboard shortcuts |
+| **7 clinical cases** | Step-by-step decisions scored best / acceptable / harmful, with debriefs |
+| **6 tools** | Diagnostic Pathfinder (DSM-5-TR episode and duration logic) · Suicide Risk Formulation (SAFE-T/C-SSRS concepts, documentation summary) · Clinical scales (PHQ-9, GAD-7, AUDIT-C, CIWA-Ar, COWS) · Antidepressant switch planner · Toxic syndrome differentiator · Drug explorer (59 drugs, heatmaps, compare) |
+| **Reference** | 99-term glossary, 103 references with "cited in" back-links, ⌘K search across everything |
 
-### 🛠️ Interactive Tools
+Progress (sections learned, answers, flashcard schedules, case scores) is stored only in the browser and can be exported/imported from Settings.
 
-- **Diagnostic Pattern Recognizer**: Interactive symptom-based diagnosis tool
-- **Practice Assessment**: 10 case-based vignettes and MCQs with detailed explanations
-- **Glossary**: 40+ psychiatric terms and concepts
+## Develop
 
-### ⚙️ Additional Features
-
-- **Dark/Light Mode**: Comfortable viewing in any lighting condition
-- **Mobile-First Design**: Optimized for learning on the go
-- **Offline Capable**: PWA with service worker for offline access
-- **No Data Tracking**: Complete privacy - no user data collection or tracking
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js 18.x or higher
-- npm or yarn
-
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/Knowledgesynthesis/PSYCH-MASTER.git
-   cd PSYCH-MASTER
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Start the development server:
-   ```bash
-   npm run dev
-   ```
-
-4. Open your browser and navigate to `http://localhost:5173`
-
-### Build for Production
+Requires Node ≥ 20.19.
 
 ```bash
-npm run build
+npm install
+npm run dev          # http://localhost:5173
+npm run check        # typecheck + lint + 470+ unit/content-integrity tests
+npm run build        # production build in dist/ (PWA service worker included)
+npm run preview      # serve the build on :4173
+npm run e2e          # browser smoke test of every route at desktop and phone sizes (needs `npm run preview` running)
 ```
 
-The production build will be available in the `dist` directory.
+Stack: React 19, React Router 7, Vite 8, Tailwind CSS 4, Zustand 5, Vitest, vite-plugin-pwa. Deployed on Vercel (`vercel.json` provides SPA rewrites and asset caching).
 
-### Preview Production Build
+## Editing content
 
-```bash
-npm run preview
-```
+All learning content is typed data in `src/content/` (modules, questions, cases, glossary, drugs, references). The content tests (`src/content/content.test.ts`) fail the build if an ID is duplicated, a citation doesn't resolve, a section is uncited, a question lacks per-option rationales, an internal link is dead, or a previously corrected error reappears.
 
-## Technology Stack
+## Scope
 
-- **React 18** - UI library
-- **TypeScript** - Type safety
-- **Vite** - Build tool and dev server
-- **React Router** - Client-side routing
-- **Tailwind CSS** - Styling
-- **Zustand** - State management (theme)
-- **Vite PWA** - Offline capability
+A learning resource with synthetic cases. Confirm doses and approvals against current labeling and local protocols. In a crisis in the US, call or text **988**.
 
-## Educational Use
-
-This application is designed exclusively for educational purposes:
-
-- ✅ Learn psychiatric diagnosis and treatment
-- ✅ Practice clinical reasoning
-- ✅ Study for medical exams
-- ✅ Review psychopharmacology
-
-**This platform is NOT:**
-- ❌ A substitute for clinical judgment
-- ❌ Medical advice for real patients
-- ❌ A diagnostic tool for actual patient care
-
-## Content Alignment
-
-Content is conceptually aligned with:
-- DSM-5-TR criteria
-- APA clinical practice guidelines
-- Evidence-based psychiatric practices
-- Standard psychopharmacology principles
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## License
-
-This project is licensed under the MIT License.
-
-## Disclaimers
-
-### Educational Use Only
-All clinical scenarios are synthetic and created for learning. This platform is NOT a substitute for professional medical judgment, clinical training, or individualized patient care.
-
-### Not Medical Advice
-The information provided does not constitute medical advice, diagnosis, or treatment. Always consult with qualified healthcare professionals for clinical decisions.
-
-### Emergency Situations
-If experiencing a mental health emergency or having thoughts of suicide:
-- **Call 911** or go to the nearest emergency room
-- **Call 988** - National Suicide Prevention Lifeline (US)
-- **Text "HELLO" to 741741** - Crisis Text Line
-
-## Acknowledgments
-
-Built with educational rigor and clinical accuracy in mind, following best practices in psychiatric education and evidence-based medicine.
-
----
-
-**Version**: 1.0.0
-**Built for**: Medical students, residents, and early clinicians
+License: MIT.

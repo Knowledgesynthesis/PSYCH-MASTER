@@ -15,7 +15,8 @@
     "lint": "eslint . --max-warnings 0",
     "test": "vitest run",
     "test:watch": "vitest",
-    "check": "npm run typecheck && npm run lint && npm run test"
+    "check": "npm run typecheck && npm run lint && npm run test",
+    "e2e": "node scripts/e2e-smoke.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",

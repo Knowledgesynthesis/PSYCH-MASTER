@@ -44,7 +44,7 @@ export function Glossary() {
         {byLetter.map(([L, items]) => (
           <section key={L}>
             <h2 className="mb-3 text-sm font-bold text-primary">{L}</h2>
-            <dl className="grid gap-3 md:grid-cols-2">
+            <dl className="grid grid-cols-1 gap-3 md:grid-cols-2">
               {items.map((g) => (
                 <Card key={g.term} className="p-4">
                   <div className="flex items-start justify-between gap-2">

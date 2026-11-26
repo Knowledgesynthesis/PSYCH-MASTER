@@ -91,7 +91,7 @@ export function QuestionBank() {
           <PageHeader eyebrow="Results" title={`${correct} / ${items.length} correct (${pct(correct, items.length)}%)`}>
             {session.mode === 'exam' && <>Time: {Math.round((now - session.startedAt) / 60000)} min. </>}Review every rationale, even for questions you got right.
           </PageHeader>
-          <div className="mb-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {byModule.map(({ m, n, c }) => (
               <Card key={m.id} className="p-4">
                 <div className="text-sm font-medium">{m.short}</div>
@@ -206,7 +206,7 @@ export function QuestionBank() {
         {questions.length} clinical vignettes at three levels (recall, application, next-best-step), each with a rationale for every option and its sources. Mixing topics (interleaving) builds the discrimination exams test.
       </PageHeader>
 
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px]">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_300px]">
         <Card className="space-y-6 p-5 sm:p-6">
           <div>
             <div className="mb-2 flex items-center justify-between">
@@ -222,7 +222,7 @@ export function QuestionBank() {
               ))}
             </div>
           </div>
-          <div className="grid gap-5 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
             <div>
               <h2 className="mb-2 font-semibold">Mode</h2>
               <Segmented value={mode} onChange={setMode} label="Mode" options={[{ value: 'practice', label: 'Practice' }, { value: 'exam', label: 'Timed exam' }]} />
